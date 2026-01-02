@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
 
               SizedBox(height: AppTheme.spacingMedium),
 
-              // Promo Banner
+              // Promo Banner with Image
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppTheme.spacingMedium,
@@ -133,53 +133,28 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   height: 150,
                   decoration: BoxDecoration(
-                    color: AppTheme.primaryRed,
                     borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
-                  ),
-                  child: Stack(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(AppTheme.radiusMedium),
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              AppTheme.primaryRed.withOpacity(0.8),
-                              AppTheme.darkRed.withOpacity(0.8),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'KHÔNG TĂNG GIÁ VÉ',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              'Tết Dương Lịch 2026',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(
-                                    color: Colors.white70,
-                                  ),
-                            ),
-                          ],
-                        ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 8,
+                        offset: const Offset(0, 4),
                       ),
                     ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+                    child: Image.asset(
+                      'assets/images/vietnam.png',
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: AppTheme.primaryRed,
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -228,6 +203,69 @@ class _HomePageState extends State<HomePage> {
                     _buildCompanyCardSmall('Huỳnh Gia', '⭐ 4.3'),
                     SizedBox(width: AppTheme.spacingMedium),
                     _buildCompanyCardSmall('Thành Buôn', '⭐ 4.7'),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: AppTheme.spacingLarge),
+
+              // Events Section
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppTheme.spacingMedium,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Sự kiện & Khuyến mãi',
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        Text(
+                          'Xem tất cả',
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: AppTheme.primaryRed,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: AppTheme.spacingMedium),
+                    // Event Cards
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          _buildEventCard(
+                            title: 'Tết Dương Lịch 2026',
+                            subtitle: 'Không tăng giá vé',
+                            icon: Icons.celebration,
+                            color: Colors.red,
+                          ),
+                          SizedBox(width: AppTheme.spacingMedium),
+                          _buildEventCard(
+                            title: 'Giảm 20%',
+                            subtitle: 'Vé khứ hồi',
+                            icon: Icons.discount,
+                            color: Colors.orange,
+                          ),
+                          SizedBox(width: AppTheme.spacingMedium),
+                          _buildEventCard(
+                            title: 'Mua 3 tặng 1',
+                            subtitle: 'Vé riêng lẻ',
+                            icon: Icons.card_giftcard,
+                            color: Colors.green,
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -412,6 +450,71 @@ class _HomePageState extends State<HomePage> {
             style: const TextStyle(
               color: AppTheme.warningOrange,
               fontSize: 12,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEventCard({
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required Color color,
+  }) {
+    return Container(
+      width: 160,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+        border: Border.all(
+          color: color.withOpacity(0.2),
+          width: 2,
+        ),
+      ),
+      padding: const EdgeInsets.all(AppTheme.spacingMedium),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(
+              icon,
+              color: color,
+              size: 24,
+            ),
+          ),
+          SizedBox(height: AppTheme.spacingMedium),
+          Text(
+            title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 13,
+            ),
+          ),
+          SizedBox(height: AppTheme.spacingSmall),
+          Text(
+            subtitle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 11,
+              color: Colors.grey[600],
             ),
           ),
         ],
