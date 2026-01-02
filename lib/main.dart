@@ -6,6 +6,7 @@ import 'services/api_service.dart';
 import 'models/auth.dart';
 import 'providers/auth_provider.dart';
 import 'providers/admin_provider.dart';
+import 'providers/manager_provider.dart';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/home_screen.dart';
@@ -14,6 +15,7 @@ import 'screens/my_tickets_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/admin_screens/admin_dashboard_screen.dart';
 import 'screens/admin_screens/admin_guard.dart';
+import 'screens/manager_screens/manager_dashboard_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +35,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => AdminProvider(apiService: apiService),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ManagerProvider(apiService: apiService),
         ),
       ],
       child: const SmartRideApp(),
@@ -73,6 +78,7 @@ class SmartRideApp extends StatelessWidget {
         '/search': (_) => const SearchTripsScreen(),
         '/my-tickets': (_) => const MyTicketsScreen(),
         '/profile': (_) => const ProfileScreen(),
+        '/manager': (_) => const ManagerDashboardScreen(),
         '/admin': (_) => AdminGuard(
               child: const AdminDashboardScreen(),
             ),

@@ -305,4 +305,52 @@ class ApiService {
       rethrow;
     }
   }
+
+  // Manager endpoints
+  Future<Map<String, dynamic>> getManagerTrips() async {
+    try {
+      final response = await _dio.get('/manager/trips');
+      return response.data;
+    } catch (e) {
+      print('Get manager trips error: $e');
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> getTripPassengers(int tripId) async {
+    try {
+      final response = await _dio.get('/manager/trips/$tripId/passengers');
+      return response.data;
+    } catch (e) {
+      print('Get trip passengers error: $e');
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> confirmBoarding(
+      int ticketId, String qrCode) async {
+    try {
+      final response = await _dio.post(
+        '/manager/tickets/$ticketId/confirm-boarding',
+        data: {'qrCode': qrCode},
+      );
+      return response.data;
+    } catch (e) {
+      print('Confirm boarding error: $e');
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> searchByQRCode(String qrCode) async {
+    try {
+      final response = await _dio.post(
+        '/manager/search-by-qr',
+        data: {'qrCode': qrCode},
+      );
+      return response.data;
+    } catch (e) {
+      print('Search by QR code error: $e');
+      rethrow;
+    }
+  }
 }

@@ -41,14 +41,19 @@ class _LoginScreenState extends State<LoginScreen> {
       if (!mounted) return;
 
       if (success) {
-        // Login successful - check if user is admin
+        // Login successful - check user role and navigate accordingly
         final user = authProvider.user;
-        if (user != null && user.roles.contains('Admin')) {
-          // Navigate to admin dashboard
-          Navigator.of(context).pushReplacementNamed('/admin');
-        } else {
-          // Navigate to home screen for regular users
-          Navigator.of(context).pushReplacementNamed('/home');
+        if (user != null) {
+          if (user.roles.contains('Admin')) {
+            // Navigate to admin dashboard
+            Navigator.of(context).pushReplacementNamed('/admin');
+          } else if (user.roles.contains('Manager')) {
+            // Navigate to manager dashboard
+            Navigator.of(context).pushReplacementNamed('/manager');
+          } else {
+            // Navigate to home screen for regular users
+            Navigator.of(context).pushReplacementNamed('/home');
+          }
         }
       } else {
         // Show error from AuthProvider
@@ -83,11 +88,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: AppTheme.lightGray,
                 borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
               ),
-              child: const Center(
-                child: Icon(
-                  Icons.bus_alert,
-                  size: 80,
-                  color: AppTheme.primaryRed,
+              child: Center(
+                child: Image.asset(
+                  'assets/logos/smartride_logo.png',
+                  height: 100,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),

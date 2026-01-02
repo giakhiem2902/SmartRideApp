@@ -350,6 +350,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildCompanyCardSmall(String name, String rating) {
+    // Map company names to their logo assets
+    final logoMap = {
+      'Phương Trang': 'assets/logos/company_phuongtrang.png',
+      'Thành Buôn': 'assets/logos/company_thanhbuon.png',
+      'Huỳnh Gia': 'assets/logos/company_huynhgia.png',
+    };
+
     return Container(
       width: 140,
       decoration: BoxDecoration(
@@ -374,11 +381,23 @@ class _HomePageState extends State<HomePage> {
               color: AppTheme.lightGray,
               borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
             ),
-            child: Icon(
-              Icons.bus_alert,
-              color: AppTheme.primaryRed,
-              size: 32,
-            ),
+            child: logoMap.containsKey(name)
+                ? Image.asset(
+                    logoMap[name]!,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(
+                        Icons.bus_alert,
+                        color: AppTheme.primaryRed,
+                        size: 32,
+                      );
+                    },
+                  )
+                : Icon(
+                    Icons.bus_alert,
+                    color: AppTheme.primaryRed,
+                    size: 32,
+                  ),
           ),
           Text(
             name,
